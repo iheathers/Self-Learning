@@ -1,0 +1,104 @@
+class Node {
+  constructor(value) {
+    this.left = null;
+    this.value = value;
+    this.right = null;
+  }
+}
+
+class BST {
+  constructor() {
+    this.root = null;
+  }
+
+  addNode(current, value) {
+    if (current == null) {
+      const newNode = new Node(value);
+      return newNode;
+    }
+
+    if (value > current.value) {
+      current.right = this.addNode(current.right, value);
+    } else {
+      current.left = this.addNode(current.left, value);
+    }
+
+    return current;
+  }
+
+  printAscending(current) {
+    if (current == null) {
+      return;
+    }
+
+    this.printAscending(current.left);
+    console.log(current.value);
+    this.printAscending(current.right);
+  }
+
+  printDescending(current) {
+    if (current == null) {
+      return;
+    }
+
+    this.printDescending(current.right);
+    console.log(current.value);
+    this.printDescending(current.left);
+  }
+
+  removeNode(current, value) {
+    //! Value Not Found
+    if (current == null) {
+      return null;
+    }
+
+    if (value > current.value) {
+      current.right = this.removeNode(current.right, value);
+    } else if (value < current.value) {
+      current.left = this.removeNode(current.left, value);
+    } else {
+      //! Node has no children
+      if (current.left != null && current.right != null) {
+        current = null;
+        return null;
+      }
+
+      //! Node has one child on left only
+      if (current.left != null && current.right == null) {
+        const kid = current.left;
+        current.left = null;
+        return kid;
+      }
+
+      //! Node has one child on right only
+      if (current.left == null && current.right != null) {
+        const kid = current.right;
+        current.right = null;
+        return kid;
+      }
+    }
+
+    return current;
+  }
+
+  removeValue(value) {
+    this.root = this.removeNode(this.root, value);
+  }
+}
+
+// Abstractions
+//
+
+const tree = new BST();
+tree.root = tree.addNode(tree.root, 5);
+tree.root = tree.addNode(tree.root, 7);
+tree.root = tree.addNode(tree.root, 1);
+tree.root = tree.addNode(tree.root, 2);
+tree.root = tree.addNode(tree.root, 3);
+
+tree.printAscending(tree.root);
+
+tree.removeValue(2);
+
+console.log("-------");
+tree.printAscending(tree.root);

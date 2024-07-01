@@ -1,0 +1,101 @@
+class Node {
+  constructor(value) {
+    this.prev = null;
+    this.value = value;
+    this.next = null;
+  }
+}
+
+class DoubleLinkedList {
+  constructor() {
+    this.head = null;
+    this.tail = null;
+  }
+
+  add(value) {
+    const spot = new Node(value);
+
+    if (null == this.head) {
+      this.head = spot;
+      this.tail = spot;
+    } else {
+      this.tail.next = spot;
+      spot.prev = this.tail;
+      this.tail = spot;
+    }
+  }
+
+  //
+  searchByValue(value) {
+    for (
+      let currentNode = this.head;
+      currentNode;
+      currentNode = currentNode.next
+    ) {
+      if (currentNode.value === value) {
+        console.log("Found", currentNode);
+
+        return currentNode;
+      }
+    }
+
+    return null;
+  }
+
+  removeByValue(value) {
+    const foundNode = this.searchByValue(value);
+
+    if (foundNode === null) {
+      console.log("did not found any node with given value");
+
+      return false;
+    }
+
+    if (foundNode == this.head && foundNode == this.tail) {
+      this.head = null;
+      this.tail = null;
+    }
+
+    if (foundNode == this.head) {
+      const prevNode = null;
+    }
+
+    if (foundNode == this.tail) {
+    }
+
+    const prevNode = foundNode.prev;
+    prevNode.next = foundNode.next;
+
+    const nextNode = foundNode.next;
+    nextNode.prev = foundNode.prev;
+  }
+
+  printForward() {
+    for (let current = this.head; current; current = current.next) {
+      console.log(current.value);
+    }
+  }
+
+  printBackward() {
+    for (let current = this.tail; current; current = current.prev) {
+      console.log(current.value);
+    }
+  }
+}
+
+const doubleLinkedList = new DoubleLinkedList();
+doubleLinkedList.add(1);
+doubleLinkedList.add(2);
+doubleLinkedList.add(3);
+
+// SPOT HAD NEXT AND NEXT INSIDE OF THEM OVER AND OVER
+
+// doubleLinkedList.printForward();
+// doubleLinkedList.printBackward();
+
+doubleLinkedList.searchByValue(2);
+doubleLinkedList.removeByValue(2);
+
+doubleLinkedList.printForward();
+console.log("---");
+doubleLinkedList.printBackward();
